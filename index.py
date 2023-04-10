@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import re
 import cx_Oracle
-con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
+dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='orcl') 
+con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
 app = Flask(__name__,template_folder="template")
 app.secret_key = ' key'
 app.static_folder='static'
@@ -49,12 +50,17 @@ def register():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'age' in request.form:
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'dob' in request.form:
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        dob = request.form['dob']
+        d = request.form['dob']
+        aa=d.split("-")
+        month={1:"JAN",2:"FEB",3:"MAR",4:"APR",5:"MAY",6:"JUN",7:"JULY",8:"AUG",9:"SEP",10:"OCT",11:"NOV",12:"DEC"}
+        dob=aa[2]+'-'+month[int(aa[1])]+'-'+aa[0]
+        
+        print(dob)
         # Check if account exists using MySQL
         cursor = con.cursor()
         cursor.execute('SELECT * FROM form WHERE username = :username OR email = :email',{"username": username,"email":email})
