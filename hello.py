@@ -66,8 +66,6 @@ def register():
             msg = 'Invalid email address!'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
-        elif not re.match(r'[0-120]+', dob):
-            msg = 'Invalid age'
         elif not username or not password or not email or not dob:
             msg = 'Please fill out the form!'
         else:
