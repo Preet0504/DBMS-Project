@@ -31,7 +31,7 @@ INSERT INTO form VALUES(
     '26-MAR-2003'
 );
 CREATE TABLE my_sequence (
-  sequence_value movie_id
+  sequence_value number
 );
 INSERT INTO my_sequence (sequence_value) VALUES (0);
 CREATE TRIGGER my_table_trigger
