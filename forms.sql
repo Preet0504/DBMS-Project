@@ -31,6 +31,7 @@ INSERT INTO form VALUES(
     '26-MAR-2003'
 );
 create table movies(
+   movie_id int primary key,
    title varchar2(256),
    description varchar2(512),
    duration int,
