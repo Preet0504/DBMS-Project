@@ -30,8 +30,19 @@ INSERT INTO form VALUES(
     'dhruv@gmail.com',
     '26-MAR-2003'
 );
+CREATE TABLE my_sequence (
+  sequence_value movie_id
+);
+INSERT INTO my_sequence (sequence_value) VALUES (0);
+CREATE TRIGGER my_table_trigger
+BEFORE INSERT ON movies
+FOR EACH ROW
+BEGIN
+  SELECT my_sequence.sequence_value + 1 INTO :new.id FROM dual;
+  UPDATE my_sequence SET sequence_value = :new.id;
+END;
 create table movies(
-   movie_id int primary key auto_increment,
+   movie_id int primary key,
    title varchar2(256),
    description varchar2(512),
    duration int,
