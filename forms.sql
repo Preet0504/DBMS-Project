@@ -30,3 +30,10 @@ INSERT INTO form VALUES(
     'dhruv@gmail.com',
     '26-MAR-2003'
 );
+create table movies(
+   title varchar2(256),
+   description varchar2(512),
+   duration int,
+   language varchar2(20),
+   release_date date,
+   genre varchar2(20));
