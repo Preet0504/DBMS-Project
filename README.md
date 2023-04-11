@@ -1,8 +1,1 @@
-# DBMS-Project
-
-CREATE TABLE FORM(
-USERNAME VARCHAR2(30),
-PASSWORD VARCHAR2(30),
-EMAIL VARCHAR2(30),
-AGE NUMBER(3)
-);
+Table.sql contains creations of table as of 11-04-2023
