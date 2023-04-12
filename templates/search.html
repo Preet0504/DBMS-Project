@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <title>Document</title>
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  <br>
+  {% if usr%}
+<table id="demo">
+    {%for t in tc%}
+  <tr>
+    
+  <td> <b><u>{{t}}</u></b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{tc[t]}}</td>
+  
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+  {% endfor %}
+  
+</table>
+{% else %}
+<div id="demo">No search results.</div>
+{% endif %}
+
+<a href="#" class="btnbook">Book Now Maddafakkas</a>
+</body>
+</html>
