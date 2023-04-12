@@ -6,31 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <!-- added new thing here -->
-    <link rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-
-        awesome/4.7.0/css/font-awesome.min.css">
-        <!-- stop -->
     <title>Movie booking</title>
 </head>
 
 <body>
     <section class="top-bar">
         <div class="left-content">
-            <h2 class="title">Dhruv Hingu</h2>
+            <h2 class="title">You</h2>
             <ul class="navigation">
                 <li><a href="#">Home</a></li>
                 <li><a class="active" href="#">Movies</a></li>
                 <li><a href="#">Theaters</a></li>
-                <!-- Added new part here -->
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 <li><form method="post" action="/search/">
                     
-                       <input type="text" placeholder="Search by Movie" name="search" id="search" required>
-                       <input type="submit" value="Search"><!-- <i class="fa fa-search"></i> -->
-                       
-                   </form></li>
-                   <!-- stop here -->
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <input type="text" placeholder="Search by Movie" name="search" id="search" class="btn-alt1" required>
+                    <input type="submit" value="Search" class = "btn"><!-- <i class="fa fa-search"></i> -->
+                    
+                </form></li>
             </ul>
         </div>
         <div class="right-content">
@@ -45,26 +38,26 @@
     </section>
     <section class="main-container">
         <div class="sidebar">
-            <form action="#">
+            <form method="POST" action="/filter/">
                 <div class="sidebar-groups">
                     <h3 class="sg-title">Categories</h3>
-                    <input type="checkbox" id="adventure" name="adventure" value="adventure">
+                    <input type="checkbox" id="adventure" name="mycheckbox" value="adventure">
                     <label for="adventure">Adventure</label><br>
-                    <input type="checkbox" id="action" name="action" value="action">
+                    <input type="checkbox" id="action" name="mycheckbox" value="action">
                     <label for="action">Action</label><br>
-                    <input type="checkbox" id="animation" name="animation" value="animation">
+                    <input type="checkbox" id="animation" name="mycheckbox" value="animation">
                     <label for="animation">Animation</label><br>
-                    <input type="checkbox" id="comedy" name="comedy" value="comedy">
+                    <input type="checkbox" id="comedy" name="mycheckbox" value="comedy">
                     <label for="comedy">Comedy</label><br>
-                    <input type="checkbox" id="science" name="science" value="science">
+                    <input type="checkbox" id="science" name="mycheckbox" value="science">
                     <label for="science">Science Fiction</label><br>
-                    <input type="checkbox" id="thriller" name="thriller" value="thriller">
+                    <input type="checkbox" id="thriller" name="mycheckbox" value="thriller">
                     <label for="thriller">Thriller</label><br>
-                    <input type="checkbox" id="history" name="history" value="history">
+                    <input type="checkbox" id="history" name="mycheckbox" value="history">
                     <label for="history">History</label><br>
-                    <input type="checkbox" id="documentary" name="documentary" value="documentary">
+                    <input type="checkbox" id="documentary" name="mycheckbox" value="documentary">
                     <label for="documentary">Documentary</label><br>
-                    <input type="checkbox" id="fantasy" name="fantasy" value="fantasy">
+                    <input type="checkbox" id="fantasy" name="mycheckbox" value="fantasy">
                     <label for="fantasy">Fantasy</label><br>
 
                 </div>
@@ -85,13 +78,13 @@
                     <label for="night">Night</label><br>
                 </div>
                 <div class="sidebar-groups">
-                    <a href="#" class="btn-l btn">Apply Filters</a>
+                    <input type="submit" class="btn-l btn">Apply Filters
                 </div>
             </form>
         </div>
         <div class="movies-container">
             <div class="upcoming-img-box">
-                <a href="#"><img src="https://i.ibb.co/cNkqdQy/upcoming.webp" alt=""></a>
+                <a href="movie.html"><img src="https://i.ibb.co/cNkqdQy/upcoming.webp" alt=""></a>
                 <p class="upcoming-title">Upcoming Movie</p>
                 <div class="buttons">
                     <a href="#" class="btn">Book Now</a>
@@ -101,9 +94,9 @@
             <div class="current-movies">
                 <div class="current-movie">
                     <div class="cm-img-box">
-                        <a href="#"><img src="https://i.ibb.co/jZ7hTYx/movie1.jpg" alt=""></a>
+                        <a href="movie.html"><img src="https://i.ibb.co/jZ7hTYx/movie1.jpg" alt=""></a>
                     </div>
-                    <h3 class="movie-title">Jurassic World</h3>
+                    <h3 class="movie-title">J urassic World</h3>
                     <p class="screen-name">Screen : Platinum</p>
                     <div class="booking">
                         <h2 class="price">15$</h2>
@@ -112,7 +105,7 @@
                 </div>
                 <div class="current-movie">
                     <div class="cm-img-box">
-                        <a href="#"><img src="https://i.ibb.co/qdZVrMT/movie2.jpg" alt=""></a>
+                        <a href="movie.html"><img src="https://i.ibb.co/qdZVrMT/movie2.jpg" alt=""></a>
                     </div>
                     <h3 class="movie-title">Vikram</h3>
                     <p class="screen-name">Screen : Gold</p>
@@ -123,7 +116,7 @@
                 </div>
                 <div class="current-movie">
                     <div class="cm-img-box">
-                        <a href="#"><img src="https://i.ibb.co/kcfBjwh/movie3.jpg" alt=""></a>
+                        <a href="movie.html"><img src="https://i.ibb.co/kcfBjwh/movie3.jpg" alt=""></a>
                     </div>
                     <h3 class="movie-title">Firestarter</h3>
                     <p class="screen-name">Screen : Silver</p>
