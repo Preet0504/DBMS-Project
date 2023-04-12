@@ -1,0 +1,11 @@
+{% if usr%}
+<table id="demo">
+    {% for u in usr %}
+  <tr>
+    <td>{{ u }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div id="demo">No search results.</div>
+{% endif %}
