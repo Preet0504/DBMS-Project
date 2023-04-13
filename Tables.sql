@@ -44,12 +44,12 @@ INSERT INTO CINEMA VALUES('3','I-Max','Ahmedabad');
 INSERT INTO CINEMA VALUES('4','Cinemplex','Ahmedabad');
 INSERT INTO CINEMA VALUES('5','City Pulse','Gandhinagar');
 
-INSERT INTO MOVIES VALUES(DEFAULT,'JOHN WICK 4','With the price on his head ever increasing, legendary hit man John Wick takes his fight against the High Table global as he seeks out the most powerful players in the underworld, from New York to Paris to Japan to Berlin.',169,'English','24-MAR-2023','Action,Sci');
-INSERT INTO MOVIES VALUES(DEFAULT,'JOHN WICK 1','With the price on his head ever increasing, legendary hit man John Wick takes his fight against the High Table global as he seeks out the most powerful players in the underworld, from New York to Paris to Japan to Berlin.',169,'English','24-MAR-2023','Action,Sci');
-INSERT INTO MOVIES VALUES(DEFAULT,'JOHN WICK 2','With the price on his head ever increasing, legendary hit man John Wick takes his fight against the High Table global as he seeks out the most powerful players in the underworld, from New York to Paris to Japan to Berlin.',169,'English','24-MAR-2023','Action,Sci');
-INSERT INTO MOVIES VALUES(DEFAULT,'JOHN WICK 3','With the price on his head ever increasing, legendary hit man John Wick takes his fight against the High Table global as he seeks out the most powerful players in the underworld, from New York to Paris to Japan to Berlin.',169,'English','24-MAR-2023','Action,Sci');
-INSERT INTO MOVIES VALUES(DEFAULT,'DRISHYAM','When the disappearance of a policewomans son threatens to ruin Vijays family, he leaves no stone unturned in order to shield his family.',163,'Hindi','31-JULY-2015','Suspence,Thriller');
-INSERT INTO MOVIES VALUES(DEFAULT,'BHARAMASTRA','Copy of Marvel',143,'Hindi','31-OCT-2022','Myth,Action,Romance');
+INSERT INTO MOVIES VALUES(DEFAULT,'Golmaal','Five Freinds Does Time Pass',169,'Hindi','24-SEP-2013','COMEDY');
+INSERT INTO MOVIES VALUES(DEFAULT,'Golmaal Returns','Again Time Pass',123,'Gujarati','02-JAN-2019','ADVENTURE');
+INSERT INTO MOVIES VALUES(DEFAULT,'DORAEMON','Nobita,Sizuka and Gadgets',30,'Japanese','08-DEC-2018','ANIMATION');
+INSERT INTO MOVIES VALUES(DEFAULT,'Sholay','Hath muje dede Thakur',300,'Hindi','01-OCT-1978','FANTASY');
+INSERT INTO MOVIES VALUES(DEFAULT,'DRISHYAM','Panji gayes and Pav bhaji Khayi',153,'Hindi','31-JULY-2015','THRILLER');
+INSERT INTO MOVIES VALUES(DEFAULT,'BHARAMASTRA','Copy of Marvel',143,'Hindi','31-OCT-2022','FANTASY');
 
 
 
@@ -61,6 +61,7 @@ CREATE TABLE shows (
     MOVIE_ID INT,
     FOREIGN KEY (MOVIE_ID) REFERENCES MOVIES(MOVIE_ID),
     screen_no int,
+    show_time VARCHAR2(30),
     Constraint show_Id PRIMARY Key (SHOW_ID)
 );
 
