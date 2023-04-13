@@ -32,3 +32,5 @@ insert into movies values(DEFAULT,'Demon slayer','anime',120,'japenese','25-MAR-
 insert into movies values(DEFAULT,'Avatar 2','nice cinematogrphy',180,'English','01-MAR-2023','Sci-fi');
 insert into movies values(DEFAULT,'Jurasic World','dinosaurs',150,'Hinglish','01-APR-2023','Biology');
 select * from movies;
+select * from FORM
+

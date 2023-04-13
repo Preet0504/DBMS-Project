@@ -34,6 +34,7 @@ body {
     display: grid;
     grid-template-columns: 1000px;
     justify-content: space-evenly;
+    color: white
 }
 
 
@@ -232,7 +233,7 @@ label {
 }
 
 .movie-title {
-    color: #fff;
+    color: #ffffff;
     margin-bottom: .2rem;
 }
 
@@ -245,4 +246,60 @@ label {
 
 .price {
     color: #cd8c38;
+}
+
+.btn-alt1 {
+    background-color: #1e1f26;
+    color: #cd8c38;
+    padding: .5rem 1rem;
+    border: 1px solid #cd8c38;
+    border-radius: 2rem;
+    margin-left: 1rem;
+}
+.btnbook{
+    width: 50%;
+    padding: .5rem 1rem;
+    background-color: #cd8c38;
+    border-radius: 2rem;
+    color: #1e1f26;
+    transition: .3s;
+}
+.btnbook:hover {
+    background-color: #92601f;
+}
+.search{
+    font-size: large;
+}
+.filterrr{
+    font-size: large;
+}
+.btnbuy{
+    width: 100%;
+    padding: .5rem 3rem;
+    background-color: #cd8c38;
+    border-radius: 2rem;
+    color: #1e1f26;
+    transition: .3s;
+}
+.btnbuy:hover {
+    background-color: #92601f;
+}
+.current-movies1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.current-movie1 {
+    
+    background: linear-gradient(45deg, rgba(255, 255, 255, .05), rgba(205, 140, 56, .15));
+    padding: 1rem;
+    border-radius: 1rem;
+}
+u{
+    color:  #cd8c38;
+}
+.underline{
+    color:aliceblue;
+    text-decoration: underline #cd8c38 4px;
 }
