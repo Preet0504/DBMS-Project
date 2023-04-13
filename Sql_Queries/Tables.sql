@@ -19,25 +19,7 @@ create table movies(
    RELEASE_DATE date,
    GENRE varchar2(20)
 );
-DROP Sequence movies_seq;
-CREATE SEQUENCE movies_seq
-start with 1
-maxvalue 9999999
-minvalue 1
-CYCLE
-NOCACHE
-NOORDER;
 
-
-create or replace trigger A_trigger
-    before insert on movies
-    for each ROW
-BEGIN
-    if :new.movie_id is null THEN
-        :new.movie_id := movies_seq.nextval;
-    end if;
-END;
-/
 INSERT INTO CINEMA VALUES('1','MetroPolis','Ahmedabad');
 INSERT INTO CINEMA VALUES('2','Rajhansh Cinema','Ahmedabad');
 INSERT INTO CINEMA VALUES('3','I-Max','Ahmedabad');
