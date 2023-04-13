@@ -1,0 +1,16 @@
+-- Trigger to check if the user already exist
+CREATE OR REPLACE TRIGGER USER_exist 
+BEFORE INSERT ON FORM
+FOR EACH ROW
+DECLARE
+ v_count int;
+ msg VARCHAR2(50) := 'User already exists';
+BEGIN
+ SELECT COUNT(*) INTO v_count
+ FROM form
+ WHERE username = :new.username;
+ IF v_count > 0 THEN
+   DBMS_OUTPUT.PUT_LINE(msg);
+ END IF;
+END;
+/
