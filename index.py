@@ -29,7 +29,6 @@ def login():
             # Redirect to home page
             if 'loggedin' in session:
         # User is loggedin show them the home page
-                # return render_template('home.html', username=session['username'])
                 return redirect(url_for('home'))
     # User is not loggedin redirect to login page
             return redirect(url_for('login'))
@@ -38,7 +37,7 @@ def login():
             msg = 'Incorrect username/password!'
 
     return render_template("login.html",msg=msg)
-@app.route('/logout')
+@app.route('/login/logout')
 def logout():
     # Remove session data, this will log the user out
     session.pop('loggedin', None)
@@ -51,17 +50,12 @@ def register():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'dob' in request.form:
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'age' in request.form:
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        d = request.form['dob']
-        aa=d.split("-")
-        month={1:"JAN",2:"FEB",3:"MAR",4:"APR",5:"MAY",6:"JUN",7:"JULY",8:"AUG",9:"SEP",10:"OCT",11:"NOV",12:"DEC"}
-        dob=month[int(aa[1])]+'-'+aa[2]+'-'+aa[0]
-        
-        print(dob)
+        dob = request.form['dob']
         # Check if account exists using MySQL
         cursor = con.cursor()
         cursor.execute('SELECT * FROM form WHERE username = :username OR email = :email',{"username": username,"email":email})
@@ -79,35 +73,85 @@ def register():
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute('INSERT INTO form VALUES (:username, :password, :email,:dob)', {"username":username,"password": password,"email": email,"dob":dob})
             con.commit()
+            con.close()
             msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
-
-@app.route("/home/")
+@app.route('/home/')
 def home():
     return render_template("home.html")
-# Search Function
 def getMovies(search):
     con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
     cursor = con.cursor()
-    cursor.execute("Select * from movies where title like :search or genre like :search",('%'+search+'%','%'+search+'%',))
+    search = search.lower()
+    cursor.execute("Select * from movies where lower(title) like :search or genre like :search",('%'+search+'%','%'+search+'%'))
     results = cursor.fetchall()
+    print(results,"xyz")
     con.close()
     return results
 
 @app.route("/search/", methods=['GET', 'POST'])
 def search_result():
+    col = ["Movie id:   ","Title:   ","Movie Description:   ","Duration:   ","Language:   ","Release Date:   ","Genre:   "]
     if request.method=="POST":
         data = request.form['search']
         print(data)
         users = getMovies(data)
         print(users)
+        
+
     else:
         users = []
     return render_template("search.html",usr=users)
+def filter(data):
+    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    cursor = con.cursor()
+    data1=""
+    for i in data:
+        if(i==data[0] ):
+            if (len(data)>1):
+                data1="'"+i+"'"+","
+            else:
+                data1="'"+data[0]+"'"
+        elif(i==data[-1]):
+            data1=data1+"'"+i+"'"
+        else:
+            data1=data1+"'"+i+"'"+","
+    print(data1)
+    cursor.execute("Select * from movies where genre in ("+data1+")")
+    results = cursor.fetchall()
+    con.close()
+    return results
 
+@app.route("/filter/",methods=['GET','POST'])
+def filter_result():
+    if request.method=="POST":
+        data = request.form.getlist('mycheckbox')
+        print(data)
+        users = filter(data)
+    else:
+        users = []
+    return render_template("filter.html",usr=users)
+
+
+def cinema(data):
+    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    cursor = con.cursor()
+    cursor.execute('select * from shows where movie_id ='+ data)
+    results = cursor.fetchall()
+    con.close()
+    print(results)
+    return results
+@app.route("/cinema/",methods=['GET','POST'])
+def select_cinema():
+
+    data= request.args.get('data')
+    print(data)
+    data1=cinema(data)
+    return render_template('cinema.html',dt=data1)
+        
 app.debug = True
 app.run()
