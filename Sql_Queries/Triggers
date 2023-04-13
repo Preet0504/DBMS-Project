@@ -14,3 +14,22 @@ BEGIN
  END IF;
 END;
 /
+--Trigger to autoincrement id
+CREATE SEQUENCE movies_seq
+start with 1
+maxvalue 9999999
+minvalue 1
+CYCLE
+NOCACHE
+NOORDER;
+
+
+create or replace trigger A_trigger
+    before insert on movies
+    for each ROW
+BEGIN
+    if :new.movie_id is null THEN
+        :new.movie_id := movies_seq.nextval;
+    end if;
+END;
+/
