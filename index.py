@@ -50,12 +50,16 @@ def register():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'age' in request.form:
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'dob' in request.form:
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        dob = request.form['dob']
+        d = request.form['dob']
+        aa=d.split("-")
+        month={1:"JAN",2:"FEB",3:"MAR",4:"APR",5:"MAY",6:"JUN",7:"JULY",8:"AUG",9:"SEP",10:"OCT",11:"NOV",12:"DEC"}
+        dob=aa[2]+'-'+month[int(aa[1])]+'-'+aa[0]
+        print(dob)
         # Check if account exists using MySQL
         cursor = con.cursor()
         cursor.execute('SELECT * FROM form WHERE username = :username OR email = :email',{"username": username,"email":email})
@@ -73,7 +77,6 @@ def register():
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute('INSERT INTO form VALUES (:username, :password, :email,:dob)', {"username":username,"password": password,"email": email,"dob":dob})
             con.commit()
-            con.close()
             msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -134,17 +137,24 @@ def filter_result():
         users = filter(data)
     else:
         users = []
-    return render_template("filter.html",usr=users)
+    return render_template("search.html",usr=users)
 
 
 def cinema(data):
     con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
     cursor = con.cursor()
-    cursor.execute('select * from shows where movie_id ='+ data)
+    cursor.execute('select cinema_id from shows where movie_id ='+ data)
     results = cursor.fetchall()
-    con.close()
     print(results)
-    return results
+    result=[]
+    for i in results:
+        cursor.execute('select city from cinema where cinema_id in :results',(i))
+        res= cursor.fetchone()
+        result.append(res)
+    con.close()
+    result=set(result)
+    print(result)
+    return result
 @app.route("/cinema/",methods=['GET','POST'])
 def select_cinema():
 
@@ -152,6 +162,35 @@ def select_cinema():
     print(data)
     data1=cinema(data)
     return render_template('cinema.html',dt=data1)
-        
+@app.route("/image/")
+def image_result():
+    image_id = request.args.get('data')
+    print(image_id)
+    print(type(image_id))
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='orcl') 
+    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM movies WHERE title LIKE '%' || :1 || '%'", (image_id,))
+    result = cursor.fetchall()
+    return render_template("search.html",usr=result)  
+   
+@app.route("/shows/",methods=['GET','POST'])
+def shows():
+    city=request.form['mycity']
+    print(city)
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='orcl') 
+    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    cursor=con.cursor()
+    cursor.execute('select cinema_id from cinema where city = '+"'"+city+"'")
+    res=cursor.fetchall()
+    print(res)
+    result=[]
+    for i in res:
+        cursor.execute('select movie_id,show_time from shows where cinema_id = :res',(i))
+        res1=cursor.fetchone()
+        result.append(res1)
+    
+    print(result)
+    return render_template('shows.html',ct=result)
 app.debug = True
 app.run()
