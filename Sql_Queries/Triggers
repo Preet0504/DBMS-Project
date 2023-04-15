@@ -10,7 +10,7 @@ BEGIN
  FROM form
  WHERE username = :new.username;
  IF v_count > 0 THEN
-   raise_application_error(-2000,'User can"t manupliate on weekend ');
+   raise_application_error(-2000,'User already exist');
  END IF;
 END;
 /
