@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import re
 import cx_Oracle
-dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='orcl') 
-con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
-app = Flask(__name__,template_folder="templates")
+con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
+app = Flask(__name__,template_folder="template")
 app.secret_key = ' key'
 app.static_folder='static'
 @app.route("/")
@@ -48,48 +47,62 @@ def logout():
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     # Output message if something goes wrong...
-    msg = ''
+    print("hi")
+    try:
+        msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'age' in request.form:
+        if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'dob' in request.form:
         # Create variables for easy access
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        dob = request.form['dob']
+            username = request.form['username']
+            password = request.form['password']
+            email = request.form['email']
+            d = request.form['dob']
+            print(d)
+            aa=d.split("-")
+            month={1:"JAN",2:"FEB",3:"MAR",4:"APR",5:"MAY",6:"JUN",7:"JULY",8:"AUG",9:"SEP",10:"OCT",11:"NOV",12:"DEC"}
+            dob=aa[2]+'-'+month[int(aa[1])]+'-'+aa[0]
+            print(dob)
         # Check if account exists using MySQL
-        cursor = con.cursor()
-        cursor.execute('SELECT * FROM form WHERE username = :username OR email = :email',{"username": username,"email":email})
-        account = cursor.fetchone()
+            cursor = con.cursor()
+            cursor.execute('SELECT * FROM form WHERE username = :username OR email = :email',{"username": username,"email":email})
+            account = cursor.fetchone()
         # If account exists show error and validation checks
-        if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email or not dob:
-            msg = 'Please fill out the form!'
-        else:
+            
+            if not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+                msg = 'Invalid email address!'
+            elif not re.match(r'[A-Za-z0-9]+', username):
+                msg = 'Username must contain only characters and numbers!'
+            elif not username or not password or not email or not dob:
+                msg = 'Please fill out the form!'
+            else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO form VALUES (:username, :password, :email,:dob)', {"username":username,"password": password,"email": email,"dob":dob})
-            con.commit()
-            con.close()
-            msg = 'You have successfully registered!'
-    elif request.method == 'POST':
+                cursor.execute('INSERT INTO form VALUES (:username, :password, :email,:dob)', {"username":username,"password": password,"email": email,"dob":dob})
+                con.commit()
+                con.close()
+                msg = 'You have successfully registered!'
+        elif request.method == 'POST':
         # Form is empty... (no POST data)
-        msg = 'Please fill out the form!'
+            msg = 'Please fill out the form!'
     # Show registration form with message (if any)
-    return render_template('register.html', msg=msg)
+        return render_template('register.html', msg=msg)
+    
+    except Exception as e:
+        
+        return render_template('error.html',message=str(e))
+
+@app.route('/error')  
+def error(message):
+    return render_template('error.html',message=message)
 @app.route('/home/')
 def home():
     return render_template("home.html")
 def getMovies(search):
-    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
     cursor = con.cursor()
     search = search.lower()
     cursor.execute("Select * from movies where lower(title) like :search or genre like :search",('%'+search+'%','%'+search+'%'))
     results = cursor.fetchall()
-    print(results,"xyz")
+    print(results)
     con.close()
     return results
 
@@ -106,52 +119,125 @@ def search_result():
     else:
         users = []
     return render_template("search.html",usr=users)
-def filter(data):
-    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+def filter(data1,data2,data3=None):
+    con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
     cursor = con.cursor()
-    data1=""
-    for i in data:
-        if(i==data[0] ):
-            if (len(data)>1):
-                data1="'"+i+"'"+","
+    datax=""
+    for i in data1:
+        if(i==data1[0] ):
+            if (len(data1)>1):
+                datax="'"+i+"'"+","
             else:
-                data1="'"+data[0]+"'"
-        elif(i==data[-1]):
-            data1=data1+"'"+i+"'"
+                datax="'"+data1[0]+"'"
+        elif(i==data1[-1]):
+            datax=datax+"'"+i+"'"
         else:
-            data1=data1+"'"+i+"'"+","
-    print(data1)
-    cursor.execute("Select * from movies where genre in ("+data1+")")
+            datax=datax+"'"+i+"'"+","
+    print(datax)
+    datay = ""
+    for i in data2:
+        if(i==data2[0] ):
+            if (len(data2)>1):
+                datay="'"+i+"'"+","
+            else:
+                datay="'"+data2[0]+"'"
+        elif(i==data2[-1]):
+            datay=datay+"'"+i+"'"
+        else:
+            datay=datay+"'"+i+"'"+","
+    query = "SELECT * FROM movies WHERE "
+    if datax:
+        query += "genre IN ( " +datax +')'
+        
+    if datay:
+        if data1:
+            query +=' AND '
+        query += "lower(lang) IN ('" + "','".join(data2) + "')"
+
+
+        print(data2)
+        
+    if data3:
+        if datax or datay:
+            query += " AND "
+        available_time = "SELECT movie_id  FROM shows WHERE show_time = '"+ data3 +"'"
+        query += "movie_id IN ( " + available_time + ")"
+    print("This is the query here:",query)
+    cursor.execute(query)
     results = cursor.fetchall()
     con.close()
     return results
 
 @app.route("/filter/",methods=['GET','POST'])
 def filter_result():
+    if 'time' in request.form:
+        data3 = request.form['time']
+        print(data3)
+    else:
+        data3 = None
     if request.method=="POST":
-        data = request.form.getlist('mycheckbox')
-        print(data)
-        users = filter(data)
+        data1,data2 = request.form.getlist('mycheckbox'),request.form.getlist('mycheckbox1')
+        # print(data1,data2)
+        users = filter(data1,data2,data3)
     else:
         users = []
-    return render_template("filter.html",usr=users)
+    return render_template("search.html",usr=users)
 
 
 def cinema(data):
-    con = cx_Oracle.connect(user='daps', password="daps", dsn=dsn_tns)
+    con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
     cursor = con.cursor()
-    cursor.execute('select * from shows where movie_id ='+ data)
+    cursor.execute('select cinema_id from shows where movie_id = :data' ,(data,))
     results = cursor.fetchall()
-    con.close()
     print(results)
-    return results
+    result=[]
+    for i in results:
+        cursor.execute('select city from cinema where cinema_id in :results',(i))
+        res= cursor.fetchone()
+        result.append(res)
+    con.close()
+    result=set(result)
+    print(result)
+    return result
 @app.route("/cinema/",methods=['GET','POST'])
 def select_cinema():
 
     data= request.args.get('data')
     print(data)
     data1=cinema(data)
-    return render_template('cinema.html',dt=data1)
-        
+    return render_template('cinema.html',dt=data1,dt2=data)
+
+@app.route("/image/")
+def image_result():
+    image_id = request.args.get('data')
+    print(image_id)
+    print(type(image_id))
+    con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM movies WHERE title LIKE :image_id", ('%'+image_id+'%',))
+    result = cursor.fetchall()
+    print(result)
+    return render_template("search.html",usr=result)
+@app.route("/shows/",methods = ['GET','POST'])
+def shows():
+    city=request.form['mycity']
+    city=city.split(",")
+    print(city[0])
+    print(city[1])
+    con = cx_Oracle.connect('c##preet/oracle@DESKTOP-PEKHAL8:1521/orcl21c')
+
+    cursor=con.cursor()
+    query = """
+        SELECT DISTINCT s.show_time, c.cinema_name
+        FROM cinema c
+        JOIN shows s ON s.cinema_id = c.cinema_id
+        JOIN movies m ON m.movie_id = s.movie_id
+        WHERE c.city = :city AND m.movie_id = :movie_id
+    """
+    cursor.execute(query, {'city': city[0], 'movie_id': city[1]})
+    result = cursor.fetchall()
+    print(result)
+    return render_template('shows.html',ct=result)
+
 app.debug = True
 app.run()
