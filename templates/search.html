@@ -35,7 +35,8 @@
       <div class="current-movie1">
       
         <h3 class="movie-title"><u class="underline">{{movie[1]}}</u></h3>
-        <p class="screen-name"><b><u>Desc : </u></b><br> {{movie[2]}}<b><u><br>Duration : </u></b><br> {{movie[3]}}<b><u><br>Language : </u></b><br> {{movie[4]}}<b><u><br>Release Date : </u></b><br> {{movie[5]}}<b><u><br>Genre : </u></b><br> {{movie[6]}}</p>
+        <br>
+        <p class="screen-name"><b><u>Genre : </u></b>  {{movie[6]}} &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><u> Duration : </u></b> {{movie[3]}}<b><u><br><br>Language : </u></b> {{movie[4]}}&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><u> Date : </u></b>  {{movie[5]}}<b><u><br><br>Desc : </u></b> {{movie[2]}}</p>
         <div class="booking">
             <a href="{{ url_for('select_cinema',data=movie[0]) }}" class="btnbuy">Buy</a>
         </div>
@@ -50,16 +51,3 @@
 
 </body>
 </html>
-
-{% if usr%}
-<table id="demo">
-    {% for u in usr %}
-  <tr>
-    <td>{{ u }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% else %}
-<div id="demo">No search results.</div>
-{% endif %}
-
