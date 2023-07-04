@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <title>Movie booking</title>
+</head>
+
+<body>
+    <section class="top-bar">
+        <div class="left-content">
+            <h2 class="title">You</h2>
+            <ul class="navigation">
+                <li><a href="#">Home</a></li>
+                <li><a class="active" href="#">Movies</a></li>
+                <li><a href="#">Theaters</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><form method="post" action="/search/">
+                    
+                    <input type="text" placeholder="Search by Movie" name="search" id="search" class="btn-alt1" required>
+                    <input type="submit" value="Search" class = "btn"><!-- <i class="fa fa-search"></i> -->
+                    
+                </form></li>
+            </ul>
+        </div>
+        <div class="right-content">
+            <img src="https://i.ibb.co/bHTzYqS/filter.png" alt="" class="filter">
+            <img src="https://i.ibb.co/ngQV8sV/cart.png" alt="" class="cart">
+            <img src="https://i.ibb.co/cCbc7Km/help.png" alt="" class="help">
+            <div class="profile-img-box">
+                <img src="https://i.ibb.co/wdJh9dg/profile.jpg" alt="">
+            </div>
+            <img src="https://i.ibb.co/0rNYhx9/menu.png" alt="" class="menu">
+        </div>
+    </section>
+    <section class="main-container">
+        <div class="sidebar">
+            <form method="POST" action="/filter/">
+                <div class="sidebar-groups">
+                    <h3 class="sg-title">Categories</h3>
+                    <input type="checkbox" id="adventure" name="mycheckbox" value="adventure">
+                    <label for="adventure">Adventure</label><br>
+                    <input type="checkbox" id="action" name="mycheckbox" value="action">
+                    <label for="action">Action</label><br>
+                    <input type="checkbox" id="animation" name="mycheckbox" value="animation">
+                    <label for="animation">Animation</label><br>
+                    <input type="checkbox" id="comedy" name="mycheckbox" value="comedy">
+                    <label for="comedy">Comedy</label><br>
+                    <input type="checkbox" id="science" name="mycheckbox" value="science">
+                    <label for="science">Science Fiction</label><br>
+                    <input type="checkbox" id="thriller" name="mycheckbox" value="thriller">
+                    <label for="thriller">Thriller</label><br>
+                    <input type="checkbox" id="history" name="mycheckbox" value="history">
+                    <label for="history">History</label><br>
+                    <input type="checkbox" id="documentary" name="mycheckbox" value="documentary">
+                    <label for="documentary">Documentary</label><br>
+                    <input type="checkbox" id="fantasy" name="mycheckbox" value="fantasy">
+                    <label for="fantasy">Fantasy</label><br>
+
+                </div>
+                <div class="sidebar-groups">
+                    <h3 class="sg-title">Language</h3>
+                    <input type="checkbox" id="english" name="english" value="english">
+                    <label for="english">English</label><br>
+                    <input type="checkbox" id="spanish" name="spanish" value="spanish">
+                    <label for="spanish">Spanish</label><br>
+                    <input type="checkbox" id="hindi" name="hindi" value="hindi">
+                    <label for="hindi">Hindi</label><br>
+                </div>
+                <div class="sidebar-groups">
+                    <h3 class="sg-title">Time</h3>
+                    <input type="radio" id="morning" name="time" value="morning">
+                    <label for="morning">Morning</label><br>
+                    <input type="radio" id="night" name="time" value="night">
+                    <label for="night">Night</label><br>
+                </div>
+                <div class="sidebar-groups">
+                    <input type="submit" class="btn-l btn" value = "Apply Filters">
+                </div>
+            </form>
+        </div>
+        <div class="movies-container">
+            <div class="upcoming-img-box">
+                <a href="movie.html"><img src="https://i.ibb.co/cNkqdQy/upcoming.webp" alt=""></a>
+                <p class="upcoming-title">Upcoming Movie</p>
+                <div class="buttons">
+                    <a href="#" class="btn">Book Now</a>
+                    <a href="https://www.youtube.com/watch?v=5PSNL1qE6VY" target="_blank" rel="noopener noreferrer" class="btn-alt btn">Play Trailer</a>
+                </div>
+            </div>
+            <div class="current-movies">
+                <div class="current-movie">
+                    <div class="cm-img-box">
+                        <a href="movie.html"><img src="https://i.ibb.co/jZ7hTYx/movie1.jpg" alt=""></a>
+                    </div>
+                    <h3 class="movie-title">J urassic World</h3>
+                    <p class="screen-name">Screen : Platinum</p>
+                    <div class="booking">
+                        <h2 class="price">15$</h2>
+                        <a href="#" class="btn">Buy Tickets</a>
+                    </div>
+                </div>
+                <div class="current-movie">
+                    <div class="cm-img-box">
+                        <a href="movie.html"><img src="https://i.ibb.co/qdZVrMT/movie2.jpg" alt=""></a>
+                    </div>
+                    <h3 class="movie-title">Vikram</h3>
+                    <p class="screen-name">Screen : Gold</p>
+                    <div class="booking">
+                        <h2 class="price">10$</h2>
+                        <a href="#" class="btn">Buy Tickets</a>
+                    </div>
+                </div>
+                <div class="current-movie">
+                    <div class="cm-img-box">
+                        <a href="movie.html"><img src="https://i.ibb.co/kcfBjwh/movie3.jpg" alt=""></a>
+                    </div>
+                    <h3 class="movie-title">Firestarter</h3>
+                    <p class="screen-name">Screen : Silver</p>
+                    <div class="booking">
+                        <h2 class="price">5$</h2>
+                        <a href="#" class="btn">Buy Tickets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 
